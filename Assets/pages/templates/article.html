@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{PageName}</title>
+
+        <link rel="stylesheet" type="text/css" href="Assets/styles/mainstyle.css" /> 
+    </head>
+    <body>
+        <div class="navbar">
+            <p>=</p> <!--This will be an expand icon-->
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+        </div>
+
+        <div class="banner">
+            <img src="{Image}"/>
+            <h1>{Title}</h1>
+        </div>
+        
+        <div class="main">
+            <div class="element description">
+                <b>{Description}</b>
+            </div>
+            
+            {Elements}
+        </div>
+
+        <script src="Assets/scripts/main.js"></script>
+        <script>
+            window.onload = ResizeTextAreas; 
+            window.onresize = ResizeTextAreas;
+        </script>
+    </body>
+</html>

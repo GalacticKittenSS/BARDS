@@ -1,0 +1,18 @@
+{
+    "PageName": "Article C",
+    "Title": "Article No 3 (C)",
+    "Description": "A description of Article B",
+    "BannerImage": "Assets/images/galaxy_big.png",
+    "Elements": [
+        {
+            "ID": "irbclVoIDyzY42ZB",
+            "Type": "Image",
+            "Value": "Assets/images/cat_icon_white.jpg"
+        },
+        {
+            "ID": "rcggMjxFohQdoipf",
+            "Type": "Image",
+            "Value": "Assets/images/tardis_cat.png"
+        }
+    ]
+}
