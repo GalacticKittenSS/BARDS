@@ -1,6 +1,6 @@
 import string
 import random
-import JsonUtils as json
+from . import JsonUtils as json
 
 class ArticleElement:
     def __init__(self, elementInfo : dict):
@@ -45,6 +45,11 @@ class ArticleElement:
                             <img src="{self.Value}"/>
                         </label>
                     </div>"""
+                case "Code":
+                    elementHtml = f"""
+                    <div class='{self.Type}'>
+                        <textarea id={self.ID} class='element {self.Type}' name='{self.ID}'>{self.Value}</textarea>
+                    </div>"""
 
                     
 
@@ -64,7 +69,9 @@ class ArticleElement:
                         html += f"\n   <p>{p}</p>"
                 case "Image":
                     html += f"<img src='{self.Value}'/>"
-                
+                case "Code":
+                    html += f"<textarea id={self.ID} class='{self.Type}' name='{self.ID}' readonly>{self.Value}</textarea>"
+            
             html += "\n</div>"
         
         return html
@@ -83,6 +90,7 @@ class Article:
         self.Title = json.GetString(articleInfo, "Title")
         self.ImagePath = json.GetString(articleInfo, "BannerImage")
         self.Description = json.GetString(articleInfo, "Description")
+        self.Public = json.GetBool(articleInfo, "Public", True)
         self.Elements : list[ArticleElement] = []
 
         elements : list[dict] = json.GetList(articleInfo, "Elements")
@@ -115,6 +123,7 @@ class Article:
             "Title": self.Title,
             "Description": self.Description,
             "BannerImage": self.ImagePath,
+            "Public": self.Public,
             "Elements": [element.GetDict() for element in self.Elements]
         }
 

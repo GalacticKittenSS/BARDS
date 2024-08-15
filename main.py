@@ -1,8 +1,7 @@
-import json
 import os
 
-from Server import Server, RequestHandler
-import Article
+from src.Server import Server, RequestHandler
+import src.Article as Article
 
 # Web Server Details
 hostName = "localhost"

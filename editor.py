@@ -6,9 +6,9 @@ import random
 import string
 import json
 
-from Server import Server, RequestHandler 
-import Article
-import JsonUtils
+from src.Server import Server, RequestHandler 
+from src import Article
+from src import JsonUtils
 
 from dotenv import load_dotenv
 load_dotenv()
