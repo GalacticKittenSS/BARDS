@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+
+        <link rel="stylesheet" type="text/css" href="Assets/styles/mainstyle.css" />
+    </head>
+    <body>
+        <div class="navbar">
+            <p>=</p> <!--This will be an expand icon-->
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+        </div>
+
+        <div class="banner">
+            <img src="Assets/images/galaxy.png">
+            <h1>Home</h1>
+        </div>
+
+        <div class="main">
+            <form action="/login" method="post">
+                <input type="text" name="username" placeholder="Enter a username"/>
+                <input type="text" name="password" placeholder="Enter a password"/>
+                <input type="submit"/>
+            </form>
+        </div>
+
+        <script src="Assets/scripts/editor.js"></script>
+        <script>
+            async function handle_submit(form) {
+                const username = document.getElementsByName('username')[0].value;
+                const password = document.getElementsByName('password')[0].value;
+                const result = await Login(username, password);
+
+                const expires = new Date(result['expiration'] * 1000);
+                const cookie = "token=" + result['token'] + ";expires=" + expires.toUTCString();
+                document.cookie = cookie;
+                window.location.reload();
+            }
+            
+            document.addEventListener('submit', (e) => {
+                e.preventDefault();
+                handle_submit(e.target);
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,185 @@
+#edit-form {
+    margin: 0;
+}
+
+input[type=submit] {
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+}
+
+.button {
+    text-align: center;
+}
+
+.button:active {
+    background-color: rgb(150, 150, 150);
+}
+
+.banner input {
+    font-size: 4rem;
+    padding: 0.5rem 3.5rem;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: white;
+    text-align: center;
+}
+
+.article-icon {
+    margin: 0px;
+    padding: 0px;
+    height: 25px;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: none;
+}
+
+.article-delete, .article-edit {
+    margin: 5px;
+    cursor: pointer;
+}
+
+.article:hover .article-icon {
+    display: block;
+}
+
+#create-article-popup, #delete-article-popup {
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    position: fixed;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+#create-article-popup h2, #delete-article-popup h2,  #delete-article-popup h3 {
+    text-align: center;
+}
+
+#create-article-popup div {
+    display: grid;
+    grid-template-columns: 45% 50%;
+    grid-template-rows: auto;
+
+    text-align: right;
+}
+
+#create-article-popup .submit {
+    display: flex;
+    justify-content: center;
+}
+
+#create-article-popup input {
+    width: auto;
+    margin: 10px;
+}
+
+.element-parent {
+    position: relative;
+}
+
+.element-parent:hover .delete-element {
+    display: block;
+}
+
+.element {
+    color: white;
+    
+    border-radius: 10px;
+    border: 2px solid rgb(220, 220, 220);
+    background-color: rgb(180, 180, 180);
+    
+    width: calc(92vw - 44px);
+
+    margin: 10px;
+    padding: 10px;
+}
+
+.delete-element {
+    display: none;
+    height: 40px;
+    max-height: 90%;
+
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    
+    cursor: pointer;
+}
+
+.Image, .BannerImage {
+    min-height: 44px;
+    padding: 2px 10px;
+    
+    display: block;
+    text-align: center;
+}
+
+.BannerImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Image input, .BannerImage input {
+    display: none;
+}
+
+.Image label, .BannerImage label {
+    margin: 10px 0px;
+    color: white;
+    cursor: pointer;
+}
+
+.add-element {
+    /*height: 80px;*/
+    text-align: center;
+    cursor: pointer;
+}
+
+.add-element-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-element-list {
+    display: none;
+    border-radius: 10px;
+}
+
+.add-element-type:active {
+    background-color: rgb(150, 150, 150);
+}
+
+.add-element:hover .add-element-list {
+    display: block;
+}
+
+.add-element-type {
+    border-radius: 0px;
+    margin: 0px 10px;
+}
+
+/* Override .element */ 
+
+.button {
+    width: 80px;
+    height: 20px;
+    padding: 0px;
+    margin: 2px;
+}
+
+input[type=submit] {
+    width: 84px;
+    height: 20px;
+}

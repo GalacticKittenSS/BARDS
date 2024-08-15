@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{PageName}</title>
+
+        <link rel="stylesheet" type="text/css" href="Assets/styles/mainstyle.css" /> 
+        <link rel="stylesheet" type="text/css" href="Assets/styles/editor.css" /> 
+    </head>
+    <body>
+        <form id="edit-form" method="post">
+            <div class="navbar">
+                <div class="left">
+                    <p>=</p> <!--This will be an expand icon-->
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>    
+                </div>
+                
+                <div class="right">
+                    <a class="button element" href="?mode=view">Preview</a>
+                    <input class="button element" type="submit" value="Save"/>
+                </div>
+            </div>
+
+            <div class="banner">
+                <img id="BannerImage" src="{Image}"/>
+                <input name="Title" value="{Title}" placeholder="Title"/>
+            </div>
+            
+            <div class="main">
+                <div class="element BannerImage">
+                    <input id="BannerImageInput" type="file" name="Image" value="{Image}"/>
+                    <label for="BannerImageInput">Change Banner Image</label>
+                </div>
+                
+
+                <input class="element description" type="text" name="Description" value="{Description}" placeholder="Add a description..."/>
+                
+                {Elements}
+                
+                <div class="add-element">
+                    <div class="add-element-list">
+                        <p class="add-element-type element" onclick="AddTextElement()">Add Text</p>
+                        <p class="add-element-type element" onclick="AddImageElement()">Add Image</p>
+                        <p class="add-element-type element" onclick="AddCodeElement()">Add Code</p>
+                    </div>
+
+                    <div class="add-element-icon element">
+                        <b>+</b>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <script src="Assets/scripts/main.js"></script>
+        <script src="Assets/scripts/editor.js"></script>
+        <script>
+            function ResizeTextArea() {
+                this.style.height = ""; 
+                this.style.height = this.scrollHeight + "px";
+            }
+
+            function DeleteElement() {
+                this.parentNode.remove()
+            }
+
+            function AddImageEventListener(element) {
+                let input = element.children[0];
+                let label = element.children[1];
+                let image = label.children[0];
+                input.addEventListener('change', (event) => {
+                    const files = event.target.files;
+                    image.src = URL.createObjectURL(files[0]);
+                });
+            }
+
+            function AddBasicElement() {
+                element = document.createElement('div');
+                element.className = "element-parent";
+                
+                img = document.createElement('img');
+                img.className = "delete-element";
+                img.onclick = DeleteElement;
+                img.src = 'https://static-00.iconduck.com/assets.00/delete-icon-467x512-g85gm4kg.png';
+                element.appendChild(img);    
+                
+                parentElement = document.getElementsByClassName('main')[0];
+                childElement = document.getElementsByClassName('add-element')[0];
+                parentElement.insertBefore(element, childElement);
+                
+                return element;
+            }
+
+            function AddTextElement() {
+                div = document.createElement('div');
+                div.className = "Text";
+
+                textarea = document.createElement('textarea')
+                textarea.id = GenerateRandomString(16);
+                textarea.oninput = ResizeTextArea;
+                textarea.className = "element";
+                textarea.name = textarea.id;
+                div.appendChild(textarea);
+
+                element = AddBasicElement()
+                element.appendChild(div);
+            }
+
+            function AddImageElement() {
+                div = document.createElement('div');
+                div.className = "element Image"
+
+                input = document.createElement('input')
+                input.id = GenerateRandomString(16);
+                input.name = input.id;
+                input.type = "file";
+                input.accept = "image/*";
+                div.appendChild(input);
+                
+                label = document.createElement('label');
+                label.htmlFor = input.id;
+                label.class = "button";
+                label.innerHTML = "Upload File"
+                div.appendChild(label);
+
+                img = document.createElement('img');
+                label.appendChild(img);
+                
+                element = AddBasicElement()
+                element.appendChild(div);
+
+                AddImageEventListener(div);
+            }
+
+            function AddCodeElement() {
+                div = document.createElement('div');
+                div.className = "Code";
+
+                textarea = document.createElement('textarea')
+                textarea.id = GenerateRandomString(16);
+                textarea.oninput = ResizeTextArea;
+                textarea.className = "element";
+                textarea.name = textarea.id;
+                div.appendChild(textarea);
+
+                element = AddBasicElement()
+                element.appendChild(div);
+            }
+
+            window.onload = ResizeTextAreas; 
+            window.onresize = ResizeTextAreas;
+
+            async function UploadFile(element, image) {
+                const file = element.files[0];
+                
+                if (file) {
+                    const response = await FetchJson('upload/image/' + file.name, "POST", "image/png", file);
+                    return response['image'];                        
+                }
+                
+                const url = window.location.protocol + "//" + window.location.host + "/";
+                return image.src.replace(url, '');
+            }
+
+            async function SaveArticle(form) {
+                const formData = new FormData(form);
+                
+                let banner = document.getElementsByName('Image')[0];
+                const bannerValue = await UploadFile(banner, document.getElementById('BannerImage'));
+                formData.set('Image', bannerValue);
+                
+                for (let [key, value] of formData.entries()) {
+                    const properties = ['Name', 'Title', 'Description', 'Image'];
+                    if (properties.includes(key))
+                        continue;
+
+                    let element = document.getElementById(key);
+                    let type = element.parentElement.className.replace('element ', '');
+                    
+                    if (type == "Image")
+                        value = await UploadFile(element, element.parentNode.children[1].children[0]);
+
+                    formData.set(key, type + ":" + value);
+                }
+
+                EditArticle(window.location.pathname, formData);
+            }
+
+            document.addEventListener('submit', (e) => {
+                e.preventDefault();
+                SaveArticle(e.target);
+            });
+
+            document.onkeydown = function(e) {
+                if(!e.ctrlKey || e.keyCode != 'S'.charCodeAt(0))
+                    return;
+                
+                e.preventDefault();
+                const form = document.getElementById('edit-form');
+                SaveArticle(form);
+            }
+
+            document.getElementById('BannerImageInput').addEventListener('change', (event) => {
+                const bannerImage = document.getElementById('BannerImage');
+                const files = event.target.files;
+                bannerImage.src = URL.createObjectURL(files[0]);
+            });
+
+            const images = document.getElementsByClassName('Image');
+            for (let element of images)
+                AddImageEventListener(element);
+        </script>
+    </body>
+</html>

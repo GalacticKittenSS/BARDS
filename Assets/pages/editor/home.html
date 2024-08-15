@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+
+        <link rel="stylesheet" type="text/css" href="Assets/styles/mainstyle.css" /> 
+        <link rel="stylesheet" type="text/css" href="Assets/styles/editor.css" />
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="left">
+                <p>=</p> <!--This will be an expand icon-->
+                <a href="/">Home</a>
+                <a href="/about">About</a>    
+            </div>
+            
+            <div class="right">
+                <a class="button element" href="#">Push Live</a>
+            </div>
+        </div>
+        
+        <div class="banner">
+            <img src="Assets/images/galaxy.png">
+            <h1>Home</h1>
+        </div>
+        
+        <div class="main">
+            {Articles}
+            
+            <div id="delete-article-popup" style="display: none;">
+                <h2>Are you sure you want to delete this article?</h2>
+                <h3 id="delete-article-name"></h3>
+                <button class="button element" style="width: auto;" onclick="RemoveArticle()">Yes</button>
+                <button class="button element" style="width: auto;" onclick="this.parentElement.style.display = 'none';">No</button>
+            </div>
+            
+            <form id="create-article-popup" style="display: none;">
+                <h2>Create New Article</h2>
+                <div class="name">
+                    <p>Page Name</p>
+                    <input type="text" name="Name" placeholder="Enter the page url...">
+                </div>
+                <div class="title">
+                    <p>Title</p>
+                    <input type="text" name="Title" placeholder="Enter the article title...">
+                </div>
+                <div class="image">
+                    <p>Description</p>
+                    <input type="text" name="Description" placeholder="Enter the article description...">
+                </div>
+                <div class="image">
+                    <p>Image</p>
+                    <input type="file" name="Image" accept="image/*">
+                </div>
+                <div class="submit">
+                    <input type="submit" value="Create Article">
+                </div>
+            </form>
+
+            <div class="element add-element" onclick="OpenCreateElementPopup()">
+                <b>+</b>
+            </div>
+        </div>
+
+        <script src="Assets/scripts/editor.js"></script>
+        <script>
+            function OpenCreateElementPopup() {
+                const form = document.getElementById('create-article-popup');
+                form.style.display = "flex";
+            }
+
+            function OpenDeletePopup(article_name) {
+                const form = document.getElementById('delete-article-popup');
+                form.style.display = "flex";
+                
+                const name = document.getElementById('delete-article-name');
+                name.innerHTML = article_name;
+            }
+            
+            function RemoveArticle() {
+                const name = document.getElementById('delete-article-name');
+                DeleteArticle(name.innerHTML).then(() => {
+                    window.location.reload();
+                })
+            }
+            
+            async function handle_submit(form) {
+                var articleName = document.getElementsByName('Name')[0].value;
+                articleName = articleName.toLowerCase();
+                articleName = articleName.replaceAll(" ", "_")
+
+                let formData = new FormData(form);
+                
+                const image = document.getElementsByName('Image')[0];
+                if (image.files.length > 0) {
+                    const file = image.files[0];
+                    const response = await FetchJson('upload/image/' + file.name, "POST", "image/png", file);
+                    formData.set('Image', response['image']);                    
+                }
+                
+                await CreateArticle(articleName, formData);
+                window.location = articleName + "?mode=edit";
+            }
+            
+            document.addEventListener('submit', (e) => {
+                e.preventDefault();
+                handle_submit(e.target);
+            });
+        </script>
+    </body>
+</html>

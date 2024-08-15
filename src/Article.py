@@ -24,20 +24,50 @@ class ArticleElement:
 
         return new_id
     
-    def ConvertToHTML(self):
-        elementHTML : str = ""
+    def ConvertToHTML(self, edit_mode : bool = False):
+        html : str = ""
         
-        match self.Type:
-            case "Text":
-                paragraphs = self.Value.split('\n')
-                for p in paragraphs:
-                    elementHTML += f"\n   <p>{p}</p>"
-            case "Image":
-                elementHTML = f"<img src='{self.Value}'/>"
+        if edit_mode:
+            elementHtml = ""
+
+            match self.Type:
+                case "Text":
+                    elementHtml = f"""
+                    <div class='{self.Type}'>
+                        <textarea id={self.ID} class='element {self.Type}' name='{self.ID}'>{self.Value}</textarea>
+                    </div>"""
+                case "Image":
+                    elementHtml = f"""
+                    <div class="element {self.Type}">
+                        <input id={self.ID} type="file" name="{self.ID}"/>
+                        <label for="{self.ID}" class="button">
+                            Upload File
+                            <img src="{self.Value}"/>
+                        </label>
+                    </div>"""
+
+                    
+
+            html += f"""\n
+            <div class="element-parent">
+                {elementHtml}
+                <img class="delete-element" onclick='this.parentNode.remove()' src='https://static-00.iconduck.com/assets.00/delete-icon-467x512-g85gm4kg.png'/>
+            </div>
+            """
+        else:
+            html += f"<div id='{self.ID}' class='element {self.Type}'>"
             
-        return f"""<div id='{self.ID}' class='element {self.Type}'>
-            {elementHTML}
-        </div>"""
+            match self.Type:
+                case "Text":
+                    paragraphs = self.Value.split('\n')
+                    for p in paragraphs:
+                        html += f"\n   <p>{p}</p>"
+                case "Image":
+                    html += f"<img src='{self.Value}'/>"
+                
+            html += "\n</div>"
+        
+        return html
     
     def GetDict(self):
         return {
@@ -63,7 +93,7 @@ class Article:
     def __str__(self):
         return f"Article({self.Name=}, {self.Title=}, {self.Description=})"
 
-    def ConvertToHTML(self, templatePath : str):
+    def ConvertToHTML(self, templatePath : str, edit_mode : bool = False):
         with open(templatePath, 'r') as f:
             html : str = f.read()
 
@@ -74,7 +104,7 @@ class Article:
         
         elements = ""
         for element in self.Elements:
-            elements += element.ConvertToHTML()
+            elements += element.ConvertToHTML(edit_mode)
         html = html.replace('{Elements}', elements)
         
         return html
