@@ -1,3 +1,10 @@
+"""
+WARNING: http.server is not recommended for production. It only implements basic security checks.
+(https://docs.python.org/3/library/http.server.html)
+
+The http.server class is only use for development purposes and production will use AWS
+"""
+
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
 from http.cookies import SimpleCookie
