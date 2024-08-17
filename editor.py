@@ -5,6 +5,7 @@ import jwt
 import random
 import string
 import json
+import hashlib
 
 from src.Server import Server, RequestHandler 
 from src import Article
@@ -288,8 +289,9 @@ class Editor(RequestHandler):
         if not username or not password:
             return False
         
-        mod_username = os.getenv('MOD_USERNAME')
-        mod_password = os.getenv('MOD_PASSWORD')
+        mod_username = os.getenv('MOD_USERNAME') or ''
+        mod_password = os.getenv('MOD_PASSWORD') or ''
+        mod_password = hashlib.sha256(mod_password.encode('utf-8')).hexdigest()
         return username == mod_username and password == mod_password
     
     def GenerateJWT(self, username : str, password : str) -> str:

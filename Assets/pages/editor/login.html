@@ -21,13 +21,14 @@
 
         <div class="main">
             <form action="/login" method="post">
-                <input type="text" name="username" placeholder="Enter a username"/>
-                <input type="text" name="password" placeholder="Enter a password"/>
+                <input type="text" id="username" name="username" placeholder="Enter a username"/>
+                <input type="text" id="password" name="password" placeholder="Enter a password"/>
                 <input type="submit"/>
             </form>
         </div>
 
         <script src="Assets/scripts/editor.js"></script>
+        <script src="Assets/scripts/js-sha256/sha256.js"></script>
         <script>
             async function handle_submit(form) {
                 const username = document.getElementsByName('username')[0].value;
@@ -42,6 +43,12 @@
             
             document.addEventListener('submit', (e) => {
                 e.preventDefault();
+
+                // Hash password
+                const password = document.getElementById('password');
+                const hash = sha256(password.value);
+                password.value = hash;
+
                 handle_submit(e.target);
             });
         </script>
