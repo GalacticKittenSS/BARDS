@@ -66,6 +66,16 @@
 
         <script src="Assets/scripts/editor.js"></script>
         <script>
+            function TogglePublic(article_name, image) {
+                // NOT OPTIMAL
+                // TODO: Change how public is detecte
+                const url = window.location.protocol + "//" + window.location.host + "/";
+                const public = image.src.replace(url, '') == 'Assets/icons/public-icon.png';
+                
+                EditArticle(article_name, { 'Public' : !public });
+                image.src = public ? 'Assets/icons/private-icon.png' : 'Assets/icons/public-icon.png';
+            }
+
             function OpenCreateElementPopup() {
                 const form = document.getElementById('create-article-popup');
                 form.style.display = "flex";
@@ -97,10 +107,12 @@
                 if (image.files.length > 0) {
                     const file = image.files[0];
                     const response = await FetchJson('upload/image/' + file.name, "POST", "image/png", file);
-                    formData.set('Image', response['image']);                    
-                }
+                    formData.set('Image', response['image']);
+                } 
+                else
+                    formData.set('Image', '');
                 
-                await CreateArticle(articleName, formData);
+                await CreateArticle(articleName, Object.fromEntries(formData));
                 window.location = articleName + "?mode=edit";
             }
             

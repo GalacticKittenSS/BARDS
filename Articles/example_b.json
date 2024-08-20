@@ -4,21 +4,5 @@
     "Description": "This is the description for Article A",
     "BannerImage": "Assets/images/banner.jpg",
     "Public": true,
-    "Elements": [
-        {
-            "ID": "sfx4NOnAmx7PVdae",
-            "Type": "Image",
-            "Value": "Assets/images/cat_icon_white.jpg"
-        },
-        {
-            "ID": "mHEyvQTEijFcXPGi",
-            "Type": "Text",
-            "Value": "This is a text element!"
-        },
-        {
-            "ID": "hOajIoTjkCf7QHJs",
-            "Type": "Image",
-            "Value": "Assets/images/tardis_cat.png"
-        }
-    ]
+    "Elements": []
 }

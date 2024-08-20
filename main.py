@@ -42,8 +42,12 @@ class Handler(RequestHandler):
         article_list = "<div class='article_list'>"
 
         articles = os.listdir('Articles')
-        for i, article in enumerate(articles):
+        i = 0
+        for article in articles:
             articleInfo = Article.GetArticleFromFile(f"Articles/{article}")
+            if not articleInfo.Public:
+                continue
+
             article_list += f"""\n<div class='article' id='article-{i}'>
                 <a class="link" href='/{article.removesuffix('.json')}'>
                     <img src='{articleInfo.ImagePath}'/>
@@ -55,12 +59,17 @@ class Handler(RequestHandler):
             </div>
             """
 
+            i += 1
+
         article_list += "</div>"
         content = html.replace('{Articles}', article_list)
         return content, 'text/html'
 
     def GetArticlePage(self, article_path : str) -> tuple[str, str]:
         article = Article.GetArticleFromFile(article_path)
+        if not article.Public:
+            return self.DefaultContent, 'text/html'
+
         content = article.ConvertToHTML('Assets/pages/templates/article.html')
         return content, 'text/html'
         

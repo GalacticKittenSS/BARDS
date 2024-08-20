@@ -224,6 +224,7 @@ class Editor(RequestHandler):
                     <a href='/{article_path}?mode=edit'>
                         <img class='article-edit' src='Assets/icons/edit-icon.png'/>
                     </a>
+                    <img class='article-toggle-private' onclick='TogglePublic("{article_path}", this)' src='Assets/icons/{'public' if articleInfo.Public else 'private'}-icon.png'/>
                     <img class='article-delete' onclick='OpenDeletePopup("{article_path}")' src='Assets/icons/delete-icon.png'/>
                 </div>
             </div>
@@ -252,10 +253,11 @@ class Editor(RequestHandler):
         article.Title = JsonUtils.GetString(queries, 'Title', article.Title)
         article.Description = JsonUtils.GetString(queries, 'Description', article.Description)
         article.ImagePath = JsonUtils.GetString(queries, 'Image', article.ImagePath)
+        article.Public = JsonUtils.GetBool(queries, 'Public', article.Public)
         article.Elements = []
 
         for name, value in queries.items():
-            if name in ['Name', 'Title', 'Description', 'Image']: # Not an element
+            if name in ['Name', 'Title', 'Description', 'Image', 'Public']: # Not an element
                 continue
 
             split_values = value.split(':')

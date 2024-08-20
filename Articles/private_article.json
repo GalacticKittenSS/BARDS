@@ -1,0 +1,8 @@
+{
+    "PageName": "Private Article",
+    "Title": "This is a private article",
+    "Description": "This article should be hidden from live servers",
+    "BannerImage": "Assets/images/private-article-banner.jpg",
+    "Public": false,
+    "Elements": []
+}

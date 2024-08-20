@@ -3,5 +3,6 @@
     "Title": "Article No 4 (D)",
     "Description": "",
     "BannerImage": "Assets/images/banner.jpg",
+    "Public": true,
     "Elements": []
 }

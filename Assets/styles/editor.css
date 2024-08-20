@@ -38,7 +38,7 @@ textarea {
     display: none;
 }
 
-.article-delete, .article-edit {
+.article-icon img {
     margin: 5px;
     cursor: pointer;
 }

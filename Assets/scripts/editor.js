@@ -30,19 +30,11 @@ async function Login(username, password) {
 }
 
 async function CreateArticle(article_name, data) {
-    var object = {};
-    data.forEach(function(value, key){
-        object[key] = value;
-    });
-    return await FetchJson("/api/create/" + article_name, "PUT", "application/json", JSON.stringify(object));
+    return await FetchJson("/api/create/" + article_name, "PUT", "application/json", JSON.stringify(data));
 }
 
 async function EditArticle(article_name, data) {
-    var object = {};
-    data.forEach(function(value, key){
-        object[key] = value;
-    });
-    return await FetchJson("/api/edit/" + article_name, "PUT", "application/json", JSON.stringify(object));
+    return await FetchJson("/api/edit/" + article_name, "PUT", "application/json", JSON.stringify(data));
 }
 
 async function DeleteArticle(article_name) {
