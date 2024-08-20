@@ -83,8 +83,8 @@
                 img = document.createElement('img');
                 img.className = "delete-element";
                 img.onclick = DeleteElement;
-                img.src = 'https://static-00.iconduck.com/assets.00/delete-icon-467x512-g85gm4kg.png';
-                element.appendChild(img);    
+                img.src = 'Assets/icons/delete-icon.png';
+                element.appendChild(img);
                 
                 parentElement = document.getElementsByClassName('main')[0];
                 childElement = document.getElementsByClassName('add-element')[0];
@@ -185,7 +185,7 @@
                     formData.set(key, type + ":" + value);
                 }
 
-                EditArticle(window.location.pathname, formData);
+                EditArticle(window.location.pathname, Object.fromEntries(formData));
             }
 
             document.addEventListener('submit', (e) => {

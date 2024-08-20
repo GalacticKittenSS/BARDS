@@ -222,9 +222,9 @@ class Editor(RequestHandler):
                 </a>
                 <div class='article-icon'>
                     <a href='/{article_path}?mode=edit'>
-                        <img class='article-edit' src='https://static-00.iconduck.com/assets.00/edit-icon-2048x2048-6svwfwto.png'/>
+                        <img class='article-edit' src='Assets/icons/edit-icon.png'/>
                     </a>
-                    <img class='article-delete' onclick='OpenDeletePopup("{article_path}")' src='https://static-00.iconduck.com/assets.00/delete-icon-467x512-g85gm4kg.png'/>
+                    <img class='article-delete' onclick='OpenDeletePopup("{article_path}")' src='Assets/icons/delete-icon.png'/>
                 </div>
             </div>
             """
