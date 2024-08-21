@@ -214,7 +214,9 @@ class Editor(RequestHandler):
             article_path = article.removesuffix('.json')
             article_list += f"""\n<div class='article' id='article-{i}'>
                 <a class="link" href='/{article_path}'>
-                    <img src='{articleInfo.ImagePath}'/>
+                    <div class='article-image'>
+                        <img src='{articleInfo.ImagePath}'/>
+                    </div>
                     <div class='article-text'>
                         <h3>{articleInfo.Title}</h3>
                         <p>{articleInfo.Description[0:150]}...</p>
