@@ -295,10 +295,10 @@ class Editor(RequestHandler):
         if not username or not password:
             return False
         
-        mod_username = os.getenv('MOD_USERNAME') or ''
-        mod_password = os.getenv('MOD_PASSWORD') or ''
-        mod_password = hashlib.sha256(mod_password.encode('utf-8')).hexdigest()
-        return username == mod_username and password == mod_password
+        editor_username = os.getenv('EDITOR_USERNAME') or ''
+        editor_password = os.getenv('EDITOR_PASSWORD') or ''
+        editor_password = hashlib.sha256(editor_password.encode('utf-8')).hexdigest()
+        return username == editor_username and password == editor_password
     
     def GenerateJWT(self, username : str, password : str) -> str:
         payload = {
