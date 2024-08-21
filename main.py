@@ -41,10 +41,12 @@ class Handler(RequestHandler):
         
         article_list = "<div class='article_list'>"
 
-        articles = os.listdir('Articles')
+        article_directories = os.listdir('Articles')
+        articles = [(article, Article.GetArticleFromFile(f"Articles/{article}")) for article in article_directories]
+        articles.sort(key=lambda article : -article[1].PublishDate.timestamp())
+        
         i = 0
-        for article in articles:
-            articleInfo = Article.GetArticleFromFile(f"Articles/{article}")
+        for article, articleInfo in articles:
             if not articleInfo.Public:
                 continue
 

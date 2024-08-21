@@ -1,3 +1,4 @@
+import datetime
 import string
 import random
 from . import JsonUtils as json
@@ -90,7 +91,9 @@ class Article:
         self.Title = json.GetString(articleInfo, "Title")
         self.ImagePath = json.GetString(articleInfo, "BannerImage")
         self.Description = json.GetString(articleInfo, "Description")
-        self.Public = json.GetBool(articleInfo, "Public", True)
+        self.Public = json.GetBool(articleInfo, "Public", False)
+        self.CreateDate = json.GetDate(articleInfo, "Created", "%Y-%m-%d %H:%M:%S", datetime.datetime.now())
+        self.PublishDate = json.GetDate(articleInfo, "Published", "%Y-%m-%d %H:%M:%S", self.CreateDate)
         self.Elements : list[ArticleElement] = []
 
         elements : list[dict] = json.GetList(articleInfo, "Elements")
@@ -118,14 +121,21 @@ class Article:
         return html
     
     def GetDict(self):
-        return {
+        dictionary = {
             "PageName": self.Name,
             "Title": self.Title,
             "Description": self.Description,
             "BannerImage": self.ImagePath,
             "Public": self.Public,
-            "Elements": [element.GetDict() for element in self.Elements]
+            "Elements": [element.GetDict() for element in self.Elements],
+            "Created": self.CreateDate.strftime("%Y-%m-%d %H:%M:%S")
         }
+
+        if self.Public:
+            dictionary["Published"] = self.PublishDate.strftime("%Y-%m-%d %H:%M:%S")
+
+        return dictionary
+
 
     def Serialize(self, file_path : str):
         article = self.GetDict()

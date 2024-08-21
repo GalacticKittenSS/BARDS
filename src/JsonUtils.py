@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 def GetString(file : dict, name : str, default : str = '') -> str:
     if file.get(name) is not None:
@@ -8,6 +9,11 @@ def GetString(file : dict, name : str, default : str = '') -> str:
 def GetBool(file : dict, name : str, default : bool = False) -> bool:
     if file.get(name) is not None:
         return file[name]
+    return default
+
+def GetDate(file : dict, name : str, format : str, default : datetime) -> datetime:
+    if file.get(name) is not None:
+        return datetime.strptime(file[name], format)
     return default
 
 def GetList(file : dict, name : str) -> list[dict]:

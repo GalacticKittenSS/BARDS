@@ -208,9 +208,11 @@ class Editor(RequestHandler):
         
         article_list = "<div class='article_list'>"
 
-        articles = os.listdir('Articles')
-        for i, article in enumerate(articles):
-            articleInfo = Article.GetArticleFromFile(f"Articles/{article}")
+        article_directories = os.listdir('Articles')
+        articles = [(article, Article.GetArticleFromFile(f"Articles/{article}")) for article in article_directories]
+        articles.sort(key=lambda article : -article[1].PublishDate.timestamp())
+        
+        for i, (article, articleInfo) in enumerate(articles):
             article_path = article.removesuffix('.json')
             article_list += f"""\n<div class='article' id='article-{i}'>
                 <a class="link" href='/{article_path}'>

@@ -4,5 +4,7 @@
     "Description": "A description of Article B",
     "BannerImage": "Assets/images/galaxy_big.png",
     "Public": true,
-    "Elements": []
+    "Elements": [],
+    "Created": "2024-08-15 13:00:00",
+    "Published": "2024-08-15 13:28:03"
 }
