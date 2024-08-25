@@ -73,6 +73,12 @@ class ArticleHandler(RequestHandler):
         content = article.ConvertToHTML('Assets/pages/templates/article.html')
         return content, 'text/html'
 
+
+# Handle Response (AWS Lambda entry point)
+def get_response(event : dict, context : object):
+    server = Server('', 0, ArticleHandler)
+    return server.RunOnce(event, context)
+
 # Running from terminal (Run Web Server)
 def run_http_server(hostName, serverPort):
     print(f'Please open your browser to http://{hostName}:{serverPort}')
