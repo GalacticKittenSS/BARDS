@@ -1,7 +1,9 @@
 import datetime
 import string
 import random
-from . import JsonUtils as json
+
+import JsonUtils as json
+from Platform import FileUtils
 
 class ArticleElement:
     def __init__(self, elementInfo : dict):
@@ -105,9 +107,7 @@ class Article:
         return f"Article({self.Name=}, {self.Title=}, {self.Description=})"
 
     def ConvertToHTML(self, templatePath : str, edit_mode : bool = False):
-        with open(templatePath, 'r') as f:
-            html : str = f.read()
-
+        html : str = FileUtils.Read(templatePath)
         html = html.replace('{PageName}', self.Name)
         html = html.replace('{Title}', self.Title)
         html = html.replace('{Image}', self.ImagePath)

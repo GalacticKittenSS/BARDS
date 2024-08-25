@@ -1,23 +1,30 @@
-import datetime
-from http.cookies import SimpleCookie
+"""
+http.server for creating, editing and deleting articles (to be used for development purposes only).
+"""
+
+# Import from src without specify parent directory in module,
+# which will be important for AWS that starts in the src directory.
+import sys
 import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+import datetime
 import jwt
 import random
 import string
 import json
 import hashlib
+from http.cookies import SimpleCookie
 
-from src.Server import Server, RequestHandler 
 from src import Article
 from src import JsonUtils
 
+# Editor does not support AWS and can only use http.server module
+from src.http_server import Server, RequestHandler
+from src.http_server import FileUtils as file
+
 from dotenv import load_dotenv
 load_dotenv()
-
-# Web Server Details
-hostName = "localhost"
-serverPort = 3000
-redirect_uri = f'http://{hostName}:{serverPort}'
 
 def GenerateKey(count : int) -> str:
     choices = string.ascii_uppercase + string.ascii_lowercase + string.digits
@@ -148,8 +155,8 @@ class Editor(RequestHandler):
                 article_path_start = path.find("api/delete/") + len("api/delete/")
                 article_path = f'Articles/{path[article_path_start:]}.json'
 
-                if os.path.exists(article_path):
-                    os.remove(article_path)
+                if file.Exists(article_path):
+                    file.Remove(article_path)
                     status_code = 200 
                     content = '{}'
                 else:
@@ -179,7 +186,7 @@ class Editor(RequestHandler):
         article_path = f'Articles/{path}.json'
         
         # Login
-        if not os.path.exists(path) and not successfulLogin:
+        if not file.Exists(path) and not successfulLogin:
             content, content_type = self.GetLoginPage()
         
         # Home
@@ -187,7 +194,7 @@ class Editor(RequestHandler):
             content, content_type = self.GetHomePage(token)
 
         # Article Page
-        elif os.path.exists(article_path):
+        elif file.Exists(article_path):
             edit_mode : bool = self._get_query(self._get_queries(), 'mode') == "edit"
             content, content_type = self.GetArticlePage(article_path, path, edit_mode)
             
@@ -208,7 +215,7 @@ class Editor(RequestHandler):
         
         article_list = "<div class='article_list'>"
 
-        article_directories = os.listdir('Articles')
+        article_directories = file.ListDirectory('Articles')
         articles = [(article, Article.GetArticleFromFile(f"Articles/{article}")) for article in article_directories]
         articles.sort(key=lambda article : -article[1].PublishDate.timestamp())
         
@@ -272,7 +279,7 @@ class Editor(RequestHandler):
             article.Elements.append(Article.ArticleElement(element))
     
     def CreateArticle(self, article_path : str, queries : dict[str, str]) -> tuple[int, str, str]:
-        if os.path.exists(article_path):
+        if file.Exists(article_path):
             return 400, json.dumps({ 'error' : 'Requested article name already exists' }), 'application/json'
 
         article = Article.Article({ 'Name': 'New Article', 'Title': 'New Article'})
@@ -282,7 +289,7 @@ class Editor(RequestHandler):
         return 200, json.dumps({ "article": article.GetDict() }), 'application/json'
     
     def EditArticle(self, article_path : str, queries : dict[str, str]) -> tuple[int, str, str]:
-        if not os.path.exists(article_path):
+        if not file.Exists(article_path):
             return 400, json.dumps({ 'error' : 'Requested article does not exist' }), 'application/json'
         
         article = Article.GetArticleFromFile(article_path)
@@ -320,7 +327,14 @@ class Editor(RequestHandler):
             print(f"[/{self._get_path()}] Could not verify token {token} due to error: {e}")
             return False
 
-# Run Web Server
-print(f'Please open your browser to {redirect_uri}')
-server = Server(hostName, serverPort, Editor)
-server.RunAlways()
+# Running from terminal (Create Web Server)
+if __name__ == "__main__":
+    # Web Server Details
+    hostName = "localhost"
+    serverPort = 3000
+    redirect_uri = f'http://{hostName}:{serverPort}'
+    
+    # Run Web Server
+    print(f'Please open your browser to {redirect_uri}')
+    server = Server(hostName, serverPort, Editor)
+    server.RunAlways()

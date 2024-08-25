@@ -133,10 +133,13 @@ class Server:
     def StopServer(self):
         self.Running = False
 
+    def RunOnce(self, event : dict = {}, context : object = None):
+        self.HTTPServer.handle_request()
+
     def RunAlways(self):
         self.Running = True
 
         while self.Running:
-            self.HTTPServer.handle_request()
+            self.RunOnce()
         
         self.HTTPServer.server_close()

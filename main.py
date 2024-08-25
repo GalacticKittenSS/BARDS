@@ -1,12 +1,11 @@
+# Import from src without specify parent directory in module,
+# which will be important for AWS that starts in the src directory.
+import sys
 import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from src.Server import Server, RequestHandler
+from src.Platform import Server, RequestHandler
 import src.Article as Article
-
-# Web Server Details
-hostName = "localhost"
-serverPort = 3000
-redirect_uri = f'http://{hostName}:{serverPort}'
 
 class Handler(RequestHandler):
     def do_GET(self):
@@ -75,8 +74,13 @@ class Handler(RequestHandler):
         content = article.ConvertToHTML('Assets/pages/templates/article.html')
         return content, 'text/html'
         
+if __name__ == "__main__":
+    # Web Server Details
+    hostName = "localhost"
+    serverPort = 3000
+    redirect_uri = f'http://{hostName}:{serverPort}'
 
-# Run Web Server
-print(f'Please open your browser to {redirect_uri}')
-server = Server(hostName, serverPort, Handler)
-server.RunAlways()
+    # Run Web Server
+    print(f'Please open your browser to {redirect_uri}')
+    server = Server(hostName, serverPort, Handler)
+    server.RunAlways()

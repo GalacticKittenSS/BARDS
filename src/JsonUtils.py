@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+from Platform import FileUtils
+
 def GetString(file : dict, name : str, default : str = '') -> str:
     if file.get(name) is not None:
         return file[name]
@@ -22,11 +24,8 @@ def GetList(file : dict, name : str) -> list[dict]:
     return []
 
 def LoadFromPath(path: str) -> dict:
-    with open(path, 'r') as f:
-        file = json.load(f)
-
-    return file
+    file = FileUtils.Read(path)
+    return json.loads(file)
 
 def SaveToPath(obj : dict, path : str) -> None:
-    with open(path, 'w') as f:
-        json.dump(obj, f, indent=4)
+    FileUtils.SaveString(path, json.dumps(obj, indent=4))
