@@ -9,6 +9,11 @@ Description: >
 Globals:
   Function:
     Timeout: 10
+    Environment:
+      Variables:
+        AWS_ID: !Ref AWSID
+        AWS_SECRET: !Ref AWSSecret
+        AWS_BUCKET: !Ref AWSBucket
 
 Resources:
   BlogFunction:
@@ -19,14 +24,28 @@ Resources:
       Runtime: python3.12
       Architectures:
         - x86_64
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: BUFFERED
+
+Parameters:
+  AWSID:
+    Type: String
+    Description: Environment variable value for AWS_ID
+  AWSSecret:
+    Type: String
+    Description: Environment variable value for AWS_SECRET
+  AWSBucket:
+    Type: String
+    Description: Environment variable value for AWS_BUCKET
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   BlogFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: Blog Lambda Function ARN
     Value: !GetAtt BlogFunction.Arn
   BlogFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: Implicit IAM Role created for Blog Lambda function
     Value: !GetAtt BlogFunctionRole.Arn
+  BlogFunctionUrlEndpoint:
+    Description: Blog Lambda Function URL Endpoint
+    Value: !GetAtt BlogFunctionUrl.FunctionUrl
