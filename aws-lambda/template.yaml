@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  blog-aws-lambda
+  bards/aws-lambda
 
-  Sample SAM Template for blog-aws-lambda
+  Sample SAM Template for bards/aws-lambda
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -16,7 +16,7 @@ Globals:
         AWS_BUCKET: !Ref AWSBucket
 
 Resources:
-  BlogFunction:
+  BardsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: ../src/
@@ -40,12 +40,12 @@ Parameters:
     Description: Environment variable value for AWS_BUCKET
 
 Outputs:
-  BlogFunction:
-    Description: Blog Lambda Function ARN
-    Value: !GetAtt BlogFunction.Arn
-  BlogFunctionIamRole:
-    Description: Implicit IAM Role created for Blog Lambda function
-    Value: !GetAtt BlogFunctionRole.Arn
-  BlogFunctionUrlEndpoint:
-    Description: Blog Lambda Function URL Endpoint
-    Value: !GetAtt BlogFunctionUrl.FunctionUrl
+  BardsFunction:
+    Description: BARDS Lambda Function ARN
+    Value: !GetAtt BardsFunction.Arn
+  BardsFunctionIamRole:
+    Description: Implicit IAM Role created for BARDS Lambda function
+    Value: !GetAtt BardsFunctionRole.Arn
+  BardsFunctionUrlEndpoint:
+    Description: BARDS Lambda Function URL Endpoint
+    Value: !GetAtt BardsFunctionUrl.FunctionUrl

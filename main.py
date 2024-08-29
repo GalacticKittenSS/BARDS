@@ -1,10 +1,10 @@
-# Import from src without specify parent directory in module,
+# Import from bards without specify parent directory in module,
 # which will be important for AWS that starts in the src directory.
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'bards'))
 
-from src.ArticleServer import run_http_server
+from bards.ArticleServer import run_http_server
 
 # Running from terminal (Create and run web server)
 if __name__ == "__main__":

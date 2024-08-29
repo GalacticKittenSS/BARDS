@@ -2,11 +2,11 @@
 http.server for creating, editing and deleting articles (to be used for development purposes only).
 """
 
-# Import from src without specify parent directory in module,
+# Import from bards without specify parent directory in module,
 # which will be important for AWS that starts in the src directory.
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'bards'))
 
 import datetime
 import jwt
@@ -16,12 +16,12 @@ import json
 import hashlib
 from http.cookies import SimpleCookie
 
-from src import Article
-from src import JsonUtils
+from bards import Article
+from bards import JsonUtils
 
 # Editor does not support AWS and can only use http.server module
-from src.http_server import Server, RequestHandler
-from src.http_server import FileUtils as file
+from bards.http_server import Server, RequestHandler
+from bards.http_server import FileUtils as file
 
 from dotenv import load_dotenv
 load_dotenv()
