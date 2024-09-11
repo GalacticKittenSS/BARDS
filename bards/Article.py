@@ -5,6 +5,10 @@ import random
 import JsonUtils as json
 from Platform import FileUtils
 
+class Default(dict):
+    def __missing__(self, key : str):
+        return key.join("{}")
+
 class ArticleElement:
     def __init__(self, elementInfo : dict):
         self.ID = self._get_or_create_id(elementInfo)
@@ -108,17 +112,13 @@ class Article:
 
     def ConvertToHTML(self, templatePath : str, edit_mode : bool = False):
         html : str = FileUtils.Read(templatePath)
-        html = html.replace('{PageName}', self.Name)
-        html = html.replace('{Title}', self.Title)
-        html = html.replace('{Image}', self.ImagePath)
-        html = html.replace('{Description}', self.Description)
-        
-        elements = ""
+        articleInfo = Default(self.GetDict())
+
+        articleInfo["Elements"] = ""
         for element in self.Elements:
-            elements += element.ConvertToHTML(edit_mode)
-        html = html.replace('{Elements}', elements)
+            articleInfo["Elements"] += element.ConvertToHTML(edit_mode)
         
-        return html
+        return html.format_map(articleInfo)
     
     def GetDict(self):
         dictionary = {
