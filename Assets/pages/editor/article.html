@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{PageName}</title>
 
-        <link rel="stylesheet" type="text/css" href="Assets/styles/mainstyle.css" /> 
-        <link rel="stylesheet" type="text/css" href="Assets/styles/editor.css" /> 
+        <link rel="stylesheet" type="text/css" href="/Assets/styles/mainstyle.css" /> 
+        <link rel="stylesheet" type="text/css" href="/Assets/styles/editor.css" /> 
     </head>
     <body>
         <form id="edit-form" method="post">
@@ -24,13 +24,13 @@
             </div>
 
             <div class="banner">
-                <img id="BannerImage" src="{BannerImage}"/>
+                <img id="BannerImage" src="/{BannerImage}"/>
                 <input name="Title" value="{Title}" placeholder="Title"/>
             </div>
             
             <div class="main">
                 <div class="element BannerImage">
-                    <input id="BannerImageInput" type="file" name="Image" value="{BannerImage}"/>
+                    <input id="BannerImageInput" type="file" name="Image" value="/{BannerImage}"/>
                     <label for="BannerImageInput">Change Banner Image</label>
                 </div>
                 
@@ -53,9 +53,9 @@
         </form>
 
 
-        <script src="Assets/scripts/main.js"></script>
-        <script src="Assets/scripts/editor.js"></script>
-        <script src="Assets/scripts/edit_article.js"></script>
+        <script src="/Assets/scripts/main.js"></script>
+        <script src="/Assets/scripts/editor.js"></script>
+        <script src="/Assets/scripts/edit_article.js"></script>
         <script>
             window.onload = ResizeTextAreas; 
             window.onresize = ResizeTextAreas;

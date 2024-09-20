@@ -37,7 +37,7 @@ class ArticleHandler(RequestHandler):
     def GetHomePage(self) -> tuple[str, str]:
         article_list = "<div class='article_list'>"
 
-        article_directories = file.ListDirectory('Articles')
+        article_directories = file.GetFilesRecursively('Articles')
         articles = [(article, Article.GetArticleFromFile(f"Articles/{article}")) for article in article_directories]
         articles.sort(key=lambda article : -article[1].PublishDate.timestamp())
         

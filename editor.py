@@ -191,7 +191,7 @@ class Editor(RequestHandler):
         
         # Home
         elif path == "":
-            content, content_type = self.GetHomePage(token)
+            content, content_type = self.GetHomePage()
 
         # Article Page
         elif file.Exists(article_path):
@@ -209,13 +209,13 @@ class Editor(RequestHandler):
     def Redirect(self, url : str) -> tuple[str, str]:
         return f'<html><meta http-equiv="refresh" content="0; url={url}"/></html>', 'text/html'
     
-    def GetHomePage(self, token : str) -> tuple[str, str]:
+    def GetHomePage(self) -> tuple[str, str]:
         with open('Assets/pages/editor/home.html', 'r') as f:
             html = f.read()
         
         article_list = "<div class='article_list'>"
 
-        article_directories = file.ListDirectory('Articles')
+        article_directories = file.GetFilesRecursively('Articles')
         articles = [(article, Article.GetArticleFromFile(f"Articles/{article}")) for article in article_directories]
         articles.sort(key=lambda article : -article[1].PublishDate.timestamp())
         
@@ -281,6 +281,10 @@ class Editor(RequestHandler):
     def CreateArticle(self, article_path : str, queries : dict[str, str]) -> tuple[int, str, str]:
         if file.Exists(article_path):
             return 400, json.dumps({ 'error' : 'Requested article name already exists' }), 'application/json'
+
+        parent_path = os.path.dirname(article_path)
+        if not os.path.exists(parent_path):
+            os.makedirs(parent_path)
 
         article = Article.Article({ 'Name': 'New Article', 'Title': 'New Article'})
         self.QueriesToArticle(article, queries)

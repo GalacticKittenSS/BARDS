@@ -1,7 +1,15 @@
 import os
+import glob
 
 def ListDirectory(directory : str) -> list[str]:
     return os.listdir(directory)
+
+def GetFilesRecursively(directory : str) -> list[str]:
+    directory += "\\"
+    objs = glob.iglob(directory + "**/**", recursive=True)
+    objs = list(dict.fromkeys(objs)) # Remove Duplicates
+    return [file.replace(directory, '') for file in objs if not os.path.isdir(file)]
+
 
 def Exists(filename : str) -> bool:
     return os.path.exists(filename)
