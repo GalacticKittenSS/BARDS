@@ -1,0 +1,47 @@
+body {
+    background-color: #333533;
+    color: white;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.65);
+    color: white;
+}
+
+.navbar a, .navbar p {
+    color: white;
+}
+
+.banner h1 {
+    background-color: rgba(0, 0, 0, 0.65);
+    color: white;
+}
+
+.main {
+    background-color: #111211;
+}
+
+.article {
+    border: 1px solid #444344;
+    background-color: #4A3A4A;
+}
+
+.article-text {
+    color: white;
+}
+
+.article:hover {
+    border: 3px solid #5511FF;
+    transform: translate(-8px, -8px);
+    box-shadow: 8px 8px 25px #777877;
+}
+
+@media screen and (min-width: 900px) {   
+    #article-0 .article-text, 
+    #article-1 .article-text, 
+    #article-2 .article-text, 
+    #article-3 .article-text, 
+    #article-4 .article-text {
+        background-color: #4A3A4A88;
+    }
+}

@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" type="text/css" href="/Assets/styles/mainstyle.css" /> 
         <link rel="stylesheet" type="text/css" href="/Assets/styles/editor.css" /> 
+        <link id="pagestyle" rel="stylesheet" type="text/css" href="/Assets/styles/dark.css" /> 
     </head>
     <body>
         <form id="edit-form" method="post">
@@ -18,6 +19,7 @@
                 </div>
                 
                 <div class="right">
+                    <p onclick="swapStyleSheet()">Change Style</p>
                     <a class="button element" href="?mode=view">Preview</a>
                     <input class="button element" type="submit" value="Save"/>
                 </div>

@@ -6,3 +6,9 @@ function ResizeTextAreas() {
         element.oninput = ResizeTextArea;
     }
 }
+
+function swapStyleSheet() {
+    element = document.getElementById("pagestyle")
+    sheet = element.getAttribute("href") == "Assets/styles/dark.css" ? "Assets/styles/light.css" : "Assets/styles/dark.css";
+    element.setAttribute("href", sheet);  
+}

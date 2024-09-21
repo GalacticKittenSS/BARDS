@@ -6,12 +6,18 @@
         <title>{PageName}</title>
 
         <link rel="stylesheet" type="text/css" href="/Assets/styles/mainstyle.css" /> 
+        <link id="pagestyle" rel="stylesheet" type="text/css" href="/Assets/styles/dark.css" /> 
     </head>
     <body>
         <div class="navbar">
-            <p>=</p> <!--This will be an expand icon-->
-            <a href="/">Home</a>
-            <a href="/about">About</a>
+            <div class="left">
+                <p>=</p> <!--This will be an expand icon-->
+                <a href="/">Home</a>
+                <a href="/about">About</a>    
+            </div>
+            <div class="right">
+                <p onclick="swapStyleSheet()">Change Style</p>
+            </div>
         </div>
 
         <div class="banner">

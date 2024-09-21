@@ -1,0 +1,43 @@
+body {
+    background-color: #CCCACC;
+    color: black;
+}
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.65);
+    color: black;
+}
+
+.navbar a, .navbar p {
+    color: black;
+}
+
+.banner h1 {
+    background-color: rgba(255, 255, 255, 0.65);
+    color: black;
+}
+
+.main {
+    background-color: #EEEDEE;
+}
+
+.article {
+    border: 1px solid #BBBCBB;
+    background-color: #9577AA;
+}
+
+.article:hover {
+    border: 3px solid #5511FF;
+    transform: translate(-8px, -8px);
+    box-shadow: 8px 8px 25px #777877;
+}
+
+@media screen and (min-width: 900px) {   
+    #article-0 .article-text, 
+    #article-1 .article-text, 
+    #article-2 .article-text, 
+    #article-3 .article-text, 
+    #article-4 .article-text {
+        background-color: #9577AA88;
+    }
+}

@@ -48,7 +48,9 @@ class ArticleHandler(RequestHandler):
 
             article_list += f"""\n<div class='article' id='article-{i}'>
                 <a class="link" href='/{article.removesuffix('.json')}'>
-                    <img src='{articleInfo.ImagePath}'/>
+                    <div class='article-image'>
+                        <img src='{articleInfo.ImagePath}'/>
+                    </div>
                     <div class='article-text'>
                         <h3>{articleInfo.Title}</h3>
                         <p>{articleInfo.Description[0:150]}...</p>

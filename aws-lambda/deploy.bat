@@ -12,6 +12,8 @@ aws s3 cp ../Assets/images s3://%AWS_BUCKET %/Assets/images --recursive
 aws s3 cp ../Assets/pages/templates s3://%AWS_BUCKET %/Assets/pages/templates --recursive
 aws s3 cp ../Assets/scripts/main.js s3://%AWS_BUCKET %/Assets/scripts/main.js
 aws s3 cp ../Assets/styles/mainstyle.css s3://%AWS_BUCKET %/Assets/styles/mainstyle.css
+aws s3 cp ../Assets/styles/light.css s3://%AWS_BUCKET %/Assets/styles/light.css
+aws s3 cp ../Assets/styles/dark.css s3://%AWS_BUCKET %/Assets/styles/dark.css
 
 echo Building and Deploying to AWS
 :: This has to be on one line, or no commands will execute after sam build
