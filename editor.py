@@ -59,7 +59,7 @@ class Editor(RequestHandler):
         try:
 
             if path == "login":
-                queries = self._get_queries_post()
+                queries = self._get_queries_body()
                 username = self.GetQueryOrDefault(queries, 'username', '')
                 password = self.GetQueryOrDefault(queries, 'password', '')
                 successfulLogin = self.Login(username, password)

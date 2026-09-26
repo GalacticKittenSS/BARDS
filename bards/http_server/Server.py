@@ -9,6 +9,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
 from http.cookies import SimpleCookie
 
+from typing import Any
+
 import os
 import json
 
@@ -27,11 +29,17 @@ class RequestHandler(BaseHTTPRequestHandler):
 </html>
 """
 
-    def _get_query(self, queries : dict[str, list[str]], name : str) -> str | None:
+    def _get_query(self, queries : dict[str, list[str]], name : str, default : str | None = None) -> str | None:
         query : list[str] | None = queries.get(name)
         if query:
             return query[0]
-        return None
+        return default
+
+    def _get_json_query(self, queries : dict[str, Any], name : str, default : str | None = None) -> str | None:
+        query : str | None = queries.get(name)
+        if query:
+            return query
+        return default
 
     def _get_path(self) -> str:
         path = urlparse(self.path)
@@ -55,7 +63,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         post_body = self._get_body_bytes()
         return post_body.decode('utf-8')
     
-    def _get_queries_post(self) -> dict[str, list[str]]:
+    def _get_queries_body(self) -> dict[str, list[str]]:
         post_body = self._get_body()
         return parse_qs(post_body)
     
@@ -137,9 +145,14 @@ class Server:
         self.HTTPServer.handle_request()
 
     def RunAlways(self):
+        self.HTTPServer.timeout = 1.0 # Exclude for production servers
         self.Running = True
 
         while self.Running:
-            self.RunOnce()
-        
+            try:
+                self.RunOnce()
+            except KeyboardInterrupt:
+                print("Interupt Detected. Closing the server...")
+                self.StopServer()
+
         self.HTTPServer.server_close()
